@@ -9,7 +9,6 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 
 const app = express();
 
@@ -24,7 +23,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 app.use((req, res, next) => {
   next(createError(404));
@@ -34,8 +32,9 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  console.error(err);
   res.status(err.status || 500);
-  res.render('error');
+  res.json({ errMessage: 'Internal Server Error'});
 });
 
 module.exports = app;
