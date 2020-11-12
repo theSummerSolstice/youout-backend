@@ -20,7 +20,7 @@ exports.login = async (req, res, next) => {
       userInfo,
       process.env.SECRET_TOKEN_KEY,
       (err, token) => {
-        if (err) return next(err);
+        if (err) next(err);
         res.status(200).json({
           result: 'ok',
           data: { token, user: userInfo },
