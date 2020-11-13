@@ -8,6 +8,7 @@ router.get('/',
   gamesController.getGames,
 );
 
+//test router
 router.post('/',
   gamesController.create,
 );

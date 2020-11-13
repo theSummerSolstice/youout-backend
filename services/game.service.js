@@ -1,25 +1,18 @@
 const Game = require('../models/Game');
 
-exports.findByLocation = async ({ lat, lng }) => {
-  console.log(lat, lng);
-  const cursor = Game.find({
+exports.findByLocation = async ({ lat, lng, page = 1, limit = 10 }) => {
+  const result = await Game.paginate({
     location: {
-      $near: {
-        $geometry: {
-          type: 'Point',
-          coordinates: [lat, lng]
-        },
-        $minDistance: 0,
-        $maxDistance: 12000
+      $geoWithin: {
+        $center: [[lat, lng], 1] // 1 radius is 111km
       }
     }
-  }).limit(10).cursor();
+  }, { page, limit });
 
-  const result = await cursor;
-
-  console.log(result);
+  return result;
 };
 
+//Test function
 exports.create = async (body) => {
   const result = await Game.create(body);
 

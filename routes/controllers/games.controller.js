@@ -1,16 +1,31 @@
 const gameService = require('../../services/game.service');
 
+const QUERY_TYPE = {
+  location: 'location',
+  user: 'user',
+};
+
 exports.getGames = async (req, res, next) => {
-  const { lat, lng } = req.body;
-  console.log(lat, lng);
-  try {
-    const games = await gameService.findByLocation({ lat, lng });
-    res.status(200).json({ result: 'ok', data: games });
-  } catch (err) {
-    next(err);
+  const { query } = req;
+
+  switch (query.type.toLowerCase()) {
+    case QUERY_TYPE.location: {
+      const games = await gameService.findByLocation(query);
+      res.json({ result: 'ok', data: games });
+      break;
+    };
+    case QUERY_TYPE.user: {
+      //TODO: findByUser
+      break;
+    };
+    default: {
+      res.status(400).json({ result: 'fail', message: `query type error. ${type} is not valid type.` });
+      return;
+    }
   }
 };
 
+//test router
 exports.create = async (req, res, next) => {
   const body = req.body;
   try {

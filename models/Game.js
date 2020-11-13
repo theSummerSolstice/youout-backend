@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 const Schema = mongoose.Schema;
 const { ObjectId } = Schema.Types;
 
@@ -78,13 +80,15 @@ const GameSchema = new Schema({
       default: false,
     },
     startTime: {
-      type: Date.now(),
-    }
-  }
+      type: Date,
+      default: Date.now(),
+    },
+  },
 }, {
   timestamps: true,
 });
 
 GameSchema.index({ location: '2dsphere' });
+GameSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Game', GameSchema);
