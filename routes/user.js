@@ -1,16 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const gamesController = require('./controllers/games.controller');
+const userController = require('./controllers/user.controller');
 const verifyToken = require('../middleware/verifyToken');
 
 router.get('/',
   verifyToken,
-  gamesController.sendGames,
-);
-
-//test router
-router.post('/',
-  gamesController.create,
+  userController.sendUserInfo,
 );
 
 module.exports = router;

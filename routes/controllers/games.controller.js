@@ -5,7 +5,7 @@ const QUERY_TYPE = {
   user: 'user',
 };
 
-exports.getGames = async (req, res, next) => {
+exports.sendGames = async (req, res, next) => {
   const { query } = req;
 
   switch (query.type.toLowerCase()) {
