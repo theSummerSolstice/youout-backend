@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 const Schema = mongoose.Schema;
 const { ObjectId } = Schema.Types;
 
@@ -14,7 +16,7 @@ const HistorySchema = new Schema({
     },
     lastSolvedQuiz: {
       type: Number,
-      default: null,
+      default: -1,
     },
   }],
   game: {
@@ -29,5 +31,7 @@ const HistorySchema = new Schema({
 }, {
   timestamps: true,
 });
+
+HistorySchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('History', HistorySchema);
