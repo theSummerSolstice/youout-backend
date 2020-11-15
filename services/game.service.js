@@ -8,7 +8,6 @@ exports.findByLocation = async ({ lat, lng, page = 1, limit = 10 }) => {
       }
     }
   }, { page, limit });
-
   return result;
 };
 
