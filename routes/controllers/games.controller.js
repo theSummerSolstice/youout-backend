@@ -12,17 +12,40 @@ exports.sendGames = async (req, res, next) => {
     case QUERY_TYPE.location: {
       const games = await gameService.findByLocation(query);
       res.json({ result: 'ok', data: games });
-      break;
-    };
-    case QUERY_TYPE.user: {
-      //TODO: findByUser
-      break;
-    };
-    default: {
-      res.status(400).json({ result: 'fail', message: `query type error. ${type} is not valid type.` });
       return;
-    }
+    };
+
+    case QUERY_TYPE.user: {
+      const { id } = res.locals.user;
+      const SELECTION_TYPE = {
+        history: 'history',
+        games: 'games',
+      };
+
+      switch (query.selection.toLowerCase()) {
+        case SELECTION_TYPE.history: {
+          const games = await gameService.findByHistory({ ...query, userId: id });
+          res.json({ result: 'ok', data: games });
+          return;
+        }
+
+        case SELECTION_TYPE.games: {
+          const games = await gameService.findByUser({ ...query, userId: id });
+          res.json({ result: 'ok', data: games });
+          return;
+        }
+      }
+
+      res.status(400).json({
+        result: 'fail', message: `${query.selection} is not valid type.`
+      });
+      return;
+    };
   }
+
+  res.status(400).json({
+    result: 'fail', message: `${query.type} is not valid type.`
+  });
 };
 
 //test router
