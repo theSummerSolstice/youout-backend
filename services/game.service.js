@@ -30,9 +30,10 @@ exports.findByUser = async ({ userId, page = 1, limit = 10 }) => {
   return result;
 };
 
-//Test function
-exports.create = async (body) => {
-  const result = await Game.create(body);
-
+exports.create = async (userId, body) => {
+  const result = await Game.create({
+    owner: userId,
+    ...body,
+  });
   return result;
 };

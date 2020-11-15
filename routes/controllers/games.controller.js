@@ -48,12 +48,12 @@ exports.sendGames = async (req, res, next) => {
   });
 };
 
-//test router
 exports.create = async (req, res, next) => {
-  const body = req.body;
+  const { body } = req;
+  const { id } = res.locals.user;
   try {
-    const games = await gameService.create(body);
-    res.status(200).json({ result: 'ok', data: games });
+    const newGame = await gameService.create(id, body);
+    res.status(200).json({ result: 'ok', data: newGame });
   } catch (err) {
     next(err);
   }

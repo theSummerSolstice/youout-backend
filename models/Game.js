@@ -5,6 +5,14 @@ const Schema = mongoose.Schema;
 const { ObjectId } = Schema.Types;
 
 const QuizListSchema = new Schema({
+  index: {
+    type: Number,
+    required: true,
+  },
+  keyword: {
+    type: String,
+    required: true,
+  },
   quiz: {
     type: String,
     required: true,
@@ -38,12 +46,12 @@ const PointSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ['Point'],
-    required: true
+    required: true,
   },
   coordinates: {
     type: [Number],
-    required: true
-  }
+    required: true,
+  },
 });
 
 const GameSchema = new Schema({
@@ -57,6 +65,7 @@ const GameSchema = new Schema({
     required: true,
   },
   address: String,
+  addressDetail: String,
   location: {
     type: PointSchema,
     required: true,

@@ -10,6 +10,7 @@ router.get('/',
 
 //test router
 router.post('/',
+  verifyToken,
   gamesController.create,
 );
 
